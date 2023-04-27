@@ -93,6 +93,6 @@ class inputAdm {
     }
 
     protected final void openMainAdm(Event e) throws IOException {
-        App.setRoot("auth");
+        App.setRoot("mainAdm");
     }
 }
