@@ -89,28 +89,31 @@ public class auth {
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Informasi");
-        try {
-            conn.open();
-            ResultSet rs = conn.select("select * from akun where userid = '" + tUserReg.getText() + "' and pass = '"
-                    + tPassReg.getText() + "'");
-
-            if (!rs.next()) {
-                conn.update("INSERT INTO akun(userid, pass, nama, email, status) value('" + tUserReg.getText() + "', '"
-                        + tPassReg.getText() + "', '" + tNamaReg.getText() + "', '" + tEmailReg.getText()
-                        + "', 'pembeli')");
-                alert.setContentText("Register berhasil!");
-                alert.showAndWait();
-                clearAfterReg();
-                focus();
-                conn.close();
-            } else {
-                conn.close();
-                alert.setContentText("Username sudah ada! gunakan yang lain!");
-                alert.showAndWait();
-                focus();
+        
+        if (!check()) {
+            try {
+                conn.open();
+                ResultSet rs = conn.select("select * from akun where userid = '" + tUserReg.getText() + "' and pass = '"
+                        + tPassReg.getText() + "'");
+    
+                if (!rs.next()) {
+                    conn.update("INSERT INTO akun(userid, pass, nama, email, status) value('" + tUserReg.getText() + "', '"
+                            + tPassReg.getText() + "', '" + tNamaReg.getText() + "', '" + tEmailReg.getText()
+                            + "', 'pembeli')");
+                    alert.setContentText("Register berhasil!");
+                    alert.showAndWait();
+                    clearAfterReg();
+                    focus();
+                    conn.close();
+                } else {
+                    conn.close();
+                    alert.setContentText("Username sudah ada! gunakan yang lain!");
+                    alert.showAndWait();
+                    focus();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -176,21 +179,25 @@ public class auth {
         if (key.empty(tUserReg)) {
             info.setContentText("Mohon isi username!");
             key.focus(tUserReg);
+            info.showAndWait();
             return true;
 
         } else if (key.empty(tNamaReg)) {
             info.setContentText("Mohon isi nama!");
             key.focus(tNamaReg);
+            info.showAndWait();
             return true;
 
         } else if (key.empty(tEmailReg)) {
             info.setContentText("Mohon isi email!");
             key.focus(tEmailReg);
+            info.showAndWait();
             return true;
 
         } else if (key.empty(tPassReg)) {
             info.setContentText("Mohon isi !");
             key.focus(tPassReg);
+            info.showAndWait();
             return true;
 
         } else {
